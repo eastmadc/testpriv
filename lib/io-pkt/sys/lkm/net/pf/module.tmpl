@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<module name="pf">
+
+	<type>Element</type>
+
+	<classification>Runtime</classification>
+
+	<supports>
+		<availability ref="ostargets"/>
+	</supports>
+
+	<source available="false">
+		<location>.</location>
+	</source>
+
+
+	<GroupOwner>net</GroupOwner>
+
+	<contents>
+		<package name="core_networking">
+			<component id="lsm-pf-v4.so" generated="true">
+				<location basedir="{cpu}/dll{.:endian}.v4" runtime="true">lsm-pf-v4.so</location>
+			</component>
+			<component id="lsm-pf-v6.so" generated="true">
+				<location basedir="{cpu}/dll{.:endian}.v6" runtime="true">lsm-pf-v6.so</location>
+			</component>
+		</package>
+	</contents>
+
+	<requires>
+		<part build="true" location="lib/nbutil"/>
+	</requires>
+
+</module>

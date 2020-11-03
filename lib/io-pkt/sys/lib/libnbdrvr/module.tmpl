@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<module name="nbdrvr">
+
+	<type>Element</type>
+
+	<classification>SDK</classification>
+
+	<supports>
+		<availability ref="ostargets"/>
+	</supports>
+
+	<source available="false">
+		<location type="">.</location>
+	</source>
+
+
+	<GroupOwner>net</GroupOwner>
+
+	<contents>
+		<component id="Archive" generated="true">
+			<kind type="library"/>
+			<location basedir="{cpu}/a{.:endian}" runtime="false">
+				libnbdrvr.a
+			</location>
+		</component>
+
+		<component id="SharedArchive" generated="true">
+			<kind type="library"/>
+			<location basedir="{cpu}/a{.:endian}.shared" runtime="false">
+				libnbdrvrS.a
+			</location>
+		</component>
+
+	</contents>
+
+	<requires>
+		<part build="false" location="sys/sys-nto"/>
+		<part build="false" location="sys/dev/pci"/>
+		<part build="false" location="sys/dev/usb"/>
+		<part build="false" location="sys/dev/mii"/>
+	</requires>	
+
+</module>

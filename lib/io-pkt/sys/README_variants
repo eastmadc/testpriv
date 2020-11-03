@@ -1,0 +1,35 @@
+
+uni variant
+-----------
+- InterruptDisable() / InterruptEnable() instead of
+  InterruptLock()    / InterruptUnlock() which is used
+  everywhere else.  This means uni variant absolutely
+  can't run on SMP machine.
+- All mutexing internally becomes no op so we always
+  have to run with one thread.  Exported mutexing
+  functions are no ops.
+
+smp variant
+-----------
+- InterruptLock() / InterruptUnlock(), always mutex
+  (may be superfluous if running with one thread).
+- Exported mutexing functions based on nthreads.
+
+
+general variant
+---------------
+- InterruptLock() / InterruptUnlock(), internal mutexing
+  based on nthreads.
+- Exported mutexing functions based on nthreads.
+
+
+
+
+What falls out of the above:
+----------------------------
+- Generally and smp compiled drivers can run with any
+  stack on any machine.
+- uni stack / driver can't run on smp machine.
+- uni driver can't run with stack where nthreads > 1:
+  smp variant stack actually running on smp machine or
+  smp variant stack passed explicit nthreads override.

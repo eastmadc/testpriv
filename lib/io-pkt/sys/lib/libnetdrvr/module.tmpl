@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<module name="libnetdrvr">
+
+	<type>Element</type>
+
+	<classification>SDK</classification>
+
+	<description>
+	        <short>Network Driver Library</short>
+	        <abstract>
+	                <![CDATA[The netdrvr library (libnetdrvrS.a) contains generic code which is useful when writing a network driver. Most of the code is completely system and platform independent. Some examples of functionality provided are: logging information into the system logger, parsing of standard commandline options, calculating of Cyclic Redundancy Checks (CRC), controlling of PHY devices, etc... ]]>
+	        </abstract>
+	</description>
+
+	<supports>
+		<availability ref="ostargets"/>
+	</supports>
+
+	<source available="false">
+		<location type="">.</location>
+	</source>
+
+     <GroupOwner>net</GroupOwner>
+
+	<contents>
+		<component id="Archive" generated="true">
+	 	<kind type="library"/>
+			<location basedir="{cpu}/a{.:endian}" runtime="false">
+				libnetdrvr.a
+			</location>
+		</component>
+
+		<component id="SharedArchive" generated="true">
+	 	<kind type="library"/>
+			<location basedir="{cpu}/a{.:endian}.shared" runtime="false">
+				libnetdrvrS.a
+			</location>
+		</component>
+		<component id="headers" basedir="public">
+			<kind type="header"/>
+			<source>
+				<location runtime="false" subdirs="false">netdrvr</location>
+			</source>
+		</component>		
+	</contents>
+
+</module>

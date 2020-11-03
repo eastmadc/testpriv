@@ -1,0 +1,1 @@
+- Remove _check_rhosts_file from rcmd.c / libsocket.ver.

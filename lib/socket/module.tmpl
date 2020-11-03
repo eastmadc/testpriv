@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<module name="socket">
+
+	<type>Element</type>
+
+	<classification>SDK</classification>
+
+	<supports>
+		<availability ref="ostargets"/>
+	</supports>
+
+	<source available="false">
+		<location type="">.</location>
+	</source>
+
+
+	<GroupOwner>net</GroupOwner>
+
+	<contents>
+		<component id="SharedObj" generated="true">
+			<kind type="library"/>
+			<location basedir="{cpu}/so{.:endian}" runtime="true">
+				libsocket.so
+			</location>
+		</component>
+
+		<component id="Archive" generated="true">
+			<kind type="library"/>
+			<location basedir="{cpu}/a{.:endian}" runtime="false">
+				libsocket.a
+			</location>
+		</component>
+
+		<component id="SharedArchive" generated="true">
+			<kind type="library"/>
+			<location basedir="{cpu}/so{.:endian}" runtime="false">
+				libsocketS.a
+			</location>
+		</component>
+
+		<component id="header" generated="false">
+			<kind type="header"/>
+			<source available="true">
+				<location basedir="public" runtime="false" subdirs="true">
+					.
+				</location>
+				<link runtime="false" src="sys/queue.h" dst="/usr/include/queue.h" tos="nto"/>
+			</source>
+		</component>
+		
+		<component id="pf_headers" generated="false" runtime="false">
+			<location type="install">usr/include/net</location>
+			<location basedir="../../lib/io-pkt/sys/dist/pf/net">if_pflog.h</location>
+			<location basedir="../../lib/io-pkt/sys/dist/pf/net">pfvar.h</location>
+		</component>
+
+		<component id="opencrypto_headers" generated="false" runtime="false">
+			<location type="install">usr/include/crypto</location>
+			<location basedir="../../lib/io-pkt/sys/opencrypto">cryptodev.h</location>
+		</component>
+
+		<component id="agr_headers" generated="false" runtime="false">
+			<location type="install">usr/include/net/agr</location>
+			<location basedir="../../lib/io-pkt/sys/net/agr">if_agrioctl.h</location>
+		</component>
+
+		<component id="netinet_headers" generated="false" runtime="false">
+			<location type="install">usr/include/netinet</location>
+			<location basedir="../../lib/io-pkt/sys/netinet">if_ether.h</location>
+		</component>
+
+		<component id="config" generated="false">
+			<kind type="config"/>
+				<location basedir="config" runtime="true" subdirs="true">
+					.
+				</location>
+		</component>
+
+	</contents>
+
+</module>

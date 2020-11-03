@@ -1,0 +1,3 @@
+- Remove bpf_callout() indirection as we now quiesce 
+  around manipulation of (struct bpf_if *)->bif_driverp.
+  see PR 63315.

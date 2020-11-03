@@ -1,0 +1,228 @@
+%C - Networking manager.
+
+%C provides support for:
+ Internet domain sockets
+ Unix domain sockets
+ infrastructure for other protocols
+ hardware accelerated crypto API
+
+Syntax:
+%C ... [-P priority] [-i instance] [-S] [-t threads] [-v]
+       [-d driver [driver_options]]
+       [-p protocol [protocol_options]]
+
+Options:
+
+-d driver [driver_options]  
+                  - Load driver and pass specified options.  'driver_options'
+                    is a list of driver-specific options separated by commas
+                    without whitespace.
+
+-p protocol [protocol_options] 
+                  - Load protocol and pass specified options.
+                    'protocol_options' is a list of protocol-specific options
+                    separated by commas without whitespace.  Note that the
+                    tcpip stack is already built in, so there is no need to
+                    specify -p tcpip unless you are specifying tcpip protocol
+                    options.
+
+-P priority
+                  - Priority of the main thread (default value: 21).
+
+-i instance       - Stack instance number.  Useful when running multiple
+                    instances of io-pkt.  io-pkt will service mount requests
+                    of type io-pktX where X is the instance number.
+                    e.g. # io-pkt-v6-hc -i1 -ptcpip prefix=/alt
+                         # mount -Tio-pkt1 /lib/dll/devnp-i82544.so
+                   
+-S                - Don't register a SIGSEGV handler.  This option can be 
+                    useful during debugging if a backtrace through the 
+                    signal handler doesn't work when a SIGSEGV is generated.
+
+-t threads        - Create x processing threads.  By default, one thread is
+                    created per CPU.  These threads are the packet processing
+                    threads which operate at layer 2 and may become the stack
+                    thread.  
+
+-v                - Display driver and protocol loading error messages on the 
+                    console as well as with sloginfo
+
+-D                - Run the resource manager/protocol layer stack context in
+                    a dedicated posix thread. By default this is off. This
+                    option can offer a performance improvement if you are
+                    sending and receiving TCP/IP traffic from applications on
+                    a multi-core system.
+
+When using the "-p tcpip" protocol, [protocol_options] are one or more of the
+following, separated by commas without whitespace:
+
+bigpage_strict    - By default "pagesize" is only used for the mbuf and
+                    cluster pools, the other pools are of size
+                    sysconf(_SC_PAGESIZE). This option causes "pagesize" to
+                    be used for all pools.
+
+bigstack=X        - Use a stack size of X bytes for the loading of drivers.
+                    Without this option drivers are loaded using a default
+                    128k stack. If X is less than "stacksize" (see below)
+                    then a "stacksize" stack is used.
+
+cache=0           - Disable caching of packet buffers.  This should only be
+                    needed as a debugging facility.
+
+confstr_monitor   - Monitor confstr changes, in particular _CS_HOSTNAME for
+                    the kern.hostname sysctl.  Default is to get the hostname
+                    once at startup.
+
+enmap=0           - Prevent automatic stack mapping of enXX interface names to
+                    the actual interface names.  By default, the stack will
+                    automatically map the first registered interface to en0
+                    (if a real en0 isn't present), the second interface to en1,
+                    etc. in order to preserve backwards compatibility with
+                    io-net style command lines.
+
+fastforward=X     - Enable / disable fastforwarding path.  Useful for
+                    gateways.
+                  - Enabled by "forward".
+                  - Enables "forward".
+                  - To enable only "forward": "forward,fastforward=0"
+
+forward           - Enable forwarding of IPv4 packets between interfaces.
+                  - Default is off.
+                  - Enables "fastforward" by default.
+
+forward6          - Enable forwarding of IPv6 packets between interfaces.
+                  - Default is off.
+                  - Enables "fastforward" by default.
+
+ipsec             - Enable IPSec support.
+                  - Default is off.
+                  - e.g. # io-pkt-v6-hc -ptcpip ipsec
+
+mbuf_cache=X      - As mbufs are freed after use, rather than returning them
+                    to the internal pool for general consumption, up to X
+                    mbufs will be cached per-thread to allow quicker retrieval
+                    on next allocation.  Default is 128.
+
+mtag_cache=X      - As mtags are freed after use, rather than returning them
+                    to the internal pool for general consumption, up to X
+                    mtags will be cached per-thread to allow quicker retrieval
+                    on the next allocation. This only applied to tags of 16
+                    bytes or less. Default is 128
+
+mclbytes=X        - The mbuf cluster size.  A cluster is the largest amount of
+                    contiguous memory used by an mbuf.  If the MTU is larger
+                    than a cluster, multiple clusters will be used to hold the
+                    packet.  The default (and minimum) cluster size is 2k
+                    (to fit a standard 1500 byte Ethernet packet). The maximum
+                    is 16k or "pagesize", whichever is smaller. N.B. This
+                    value is rounded down to the nearest power of 2.
+
+nocryptodev       - Disable /dev/crypto support in io-pkt.
+                  - Default is /dev/crypto support is enabled in io-pkt
+
+num_tap_interface=X
+
+                  - The max number of TAP interfaces that can be created.
+                    Default is 5.
+
+num_tun_control_interface=X
+
+                  - The number of TUN control interfaces (eg /dev/tun0) to
+                    create when io-pkt starts. Default is 4.
+
+pagesize=X        - This is the amount of data allocated each time for the
+                    mbuf and cluster memory pools (or all pools if the
+                    "bigpage_strict" option is set). This quantum is then
+                    carved into chunks of varying size depending on the pool.
+                    The default value is 128k, the max is 16m and the minimum
+                    is sysconf(_SC_PAGESIZE). N.B. This value is rounded down
+                    to the nearest power of 2. This value also sets the maximum
+                    for "mclbytes".
+
+pfil_ipsec        - Run packet filters on packets before encryption. The
+                    default is to do it after encryption.
+
+pkt_cache=X       - As mbuf + cluster combinations are freed after use, rather
+                    than returning them to the internal pool for general
+                    consumption, up to X mbuf / clusters will be cached
+                    per-thread to allow quicker retrieval on next allocation.
+                    Default is 64.
+
+pkt_typed_mem=X   - Allocate packet buffers from the specified typed memory
+                    object.
+                  - e.g. # io-pkt -ptcpip pkt_typed_mem=ram/dma
+ 
+prefix=/path      - Path to prepend to traditional /dev/socket.  Useful when
+                    running multiple stacks.  A particular stack can be
+                    targeted by clients with the SOCK environmental variable.
+                  - e.g. # io-pkt-v6-hc -ptcpip prefix=/alt
+                         # SOCK=/alt ifconfig
+
+random            - Use /dev/random as source of random data.
+                  - Default is built-in pseudo random generator.
+
+reuseport_unicast - If using SO_REUSEPORT socket option, received unicast UDP
+                    packets are delivered to all sockets bound to the port.
+                  - Default is to only deliver multicast and broadcast to all
+                    sockets.
+
+recv_ctxt=X       - X is size of receive context buffer in bytes. This is the
+                    amount of data io-pkt can receive in one operation. This
+                    does not limit the amount of data that can be received, just
+                    how many kernel operations will be needed to receive that
+                    amount of data.
+                  - Default is 135168.  Min is 2048.
+
+reply_ctxt=X      - X is the number of buffer objects that io-pkt can reply
+                    to the application with in one operation. This does not
+                    limit the amount of data that io-pkt can reply to the
+                    application with, just how many kernel operations will be
+                    needed to reply with that amount of data.
+                  - Default is 90. Min is 32.
+
+rx_prio
+rx_pulse_prio     - The default priority used by receive threads (defaults to
+                    21). This may be overridden by a driver-specific priority
+                    option (if supported by the driver).
+
+somaxconn=X       - X is the value of SOMAXCONN, the maximum length of the
+                    listen queue used to accept new TCP connections (min from
+                    sys/socket.h).
+
+so_txprio_enable  - Enable the SO_TXPRIO socket option.
+
+stacksize=X       - X is the size of each thread's stack in bytes.
+                  - Default is 4096.
+
+stackguard        - Introduce a guard page between each thread's stack to
+                    aid in debugging "blown stack handling" panics. This will
+                    cause a SIGSEGV at the point of stack overrun rather than
+                    at the end of the operation.
+                  - N.B. If stacksize is not a multiple of the system page
+                    size then this option will increase the stack size until
+                    it is. A message will be logged to slogger in this case
+                    advising of the new size. This increase in stack size may
+                    change the issue being debugged.
+
+strict_ts         - Use the io-pkt timer for timestamping BPF. This results
+                    in a best case precision of 1ms but the timestamps are
+                    guaranteed monotonic. By default ClockCycles() is used to
+                    give timestamps precise down to 1us at the risk of
+                    occasional nonmonotonic timestamps as the ClockCycles()
+                    clock is recalibrated against the io-pkt timer.
+
+threads_min=X     - X is min. number of threads.  Default is 15, min is 4.
+
+threads_max=X     - X is max. number of threads.  Default is 200.
+
+threads_incr=X    - If threads are exhausted, increment by this number up
+                    to "threads_max".
+                  - Default is 25.
+
+timer_pulse_prio  - The priority used by the receive thread to handle timer
+                    pulses. Default is 21.
+
+mfib_gid_map=X    - Specify a semicolon-separated mapping of GIDs to FIBs. Example:
+                    To map SGID 750 and 760 to FIBs 1 and 2, respectively, do:
+                    mfib_gid_map=750_1;760_2
+

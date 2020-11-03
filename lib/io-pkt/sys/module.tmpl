@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<module name="sys">
+
+	<type>Element</type>
+
+	<classification>Runtime</classification>
+
+	<supports>
+		<availability ref="ostargets"/>
+	</supports>
+
+	<!-- This is because the lsm, lkm, dev, and dev_nto items will   -->
+	<!-- be packaged seperately. -->
+	<!-- This is not a great solution. The lsm will probably be moved -->
+	<!-- out of this directory so this does not become a maintainence -->
+	<!-- problem -->
+
+	<source available="false">
+		<location subdirs="false">.</location>
+		<location>altq</location>
+		<location>arm</location>
+		<location>contrib</location>
+		<location>crypto</location>
+		<location>dist</location>
+		<location>kern</location>
+		<location>lib</location>
+		<location>machine</location>
+		<location>mips</location>
+		<location>net</location>
+		<location>net80211</location>	
+		<location>netinet</location>
+		<location>netinet6</location>
+		<location>netipsec</location>
+		<location>netkey</location>
+		<location>opencrypto</location>
+		<location>ppc</location>
+		<location>sh</location>
+		<location>sys</location>
+		<location>sys-nto</location>
+		<location>x86</location>	
+	</source>
+
+
+	<GroupOwner>net</GroupOwner>
+
+	<contents>
+			<component id="io-pkt-v4" generated="true">
+				<location basedir="target/{cpu}/o{.:endian}.v4" runtime="true">io-pkt-v4</location>
+			</component>
+			<component id="io-pkt-v4-hc" generated="true">
+				<location basedir="target/{cpu}/o{.:endian}.v4.hc" runtime="true">io-pkt-v4-hc</location>
+			</component>
+			<component id="io-pkt-v6-hc" generated="true">
+				<location basedir="target/{cpu}/o{.:endian}.v6.hc" runtime="true">io-pkt-v6-hc</location>
+			</component>
+
+		<component id="iopkt_headers" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt</location>
+			<location basedir="./">device_qnx.h</location>
+			<location basedir="./">nw_datastruct.h</location>
+			<location basedir="./">nw_defs.h</location>
+			<location basedir="./">nw_dl.h</location>
+			<location basedir="./">nw_intr.h</location>
+			<location basedir="./">nw_pci.h</location>
+			<location basedir="./">nw_sig.h</location>
+			<location basedir="./">nw_thread.h</location>
+			<location basedir="./">nw_tls.h</location>
+			<location basedir="./">iopkt_driver.h</location>
+			<location basedir="./">quiesce.h</location>
+			<location basedir="./">siglock.h</location>
+		</component>
+		<component id="iopkt_headers_mii" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/dev/mii</location>
+			<location basedir="./dev/mii">miivar.h</location>
+		</component>
+		<component id="iopkt_headers_pci" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/dev/pci</location>
+			<location basedir="./dev/pci">pcidevs.h</location>
+		</component>
+		<component id="iopkt_headers_lib" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/lib/libkern</location>
+			<location basedir="./lib/libkern">libkern.h</location>
+		</component>
+		<component id="iopkt_headers_machine" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/machine</location>
+			<location basedir="./machine">ansi.h</location>
+			<location basedir="./machine">bswap.h</location>
+			<location basedir="./machine">cpu.h</location>
+			<location basedir="./machine">endian.h</location>
+			<location basedir="./machine">intr.h</location>
+			<location basedir="./machine">param.h</location>
+			<location basedir="./machine">types.h</location>
+		</component>
+		<component id="iopkt_headers_sys" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/sys</location>
+			<location basedir="./sys">cdefs_bsd.h</location>
+			<location basedir="./sys">cdefs_elf.h</location>
+			<location basedir="./sys">device.h</location>
+			<location basedir="./sys">evcnt.h</location>
+			<location basedir="./sys">event.h</location>
+			<location basedir="./sys">inttypes.h</location>
+			<location basedir="./sys">io-pkt.h</location>
+			<location basedir="./sys">lock.h</location>
+			<location basedir="./sys">mallocvar.h</location>
+			<location basedir="./sys">nw_cpu_atomic.h</location>
+			<location basedir="./sys">resourcevar.h</location>
+			<location basedir="./sys">rnd.h</location>
+			<location basedir="./sys">siginfo_bsd.h</location>
+			<location basedir="./sys">signal.h</location>
+			<location basedir="./sys">syslog.h</location>
+			<location basedir="./sys">systm.h</location>
+			<location basedir="./sys">types_bsd.h</location>
+		</component>
+		<component id="iopkt4sys_headers" generated="false" runtime="false">
+			<location type="install">usr/include/sys</location>
+			<location basedir="./sys">dcmd_io-net.h</location>
+			<location basedir="./sys">io-net.h</location>
+		</component>
+		<component id="iopkt_headers_sys-nto" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/sys-nto</location>
+			<location basedir="./sys-nto">bpfilter.h</location>
+		</component>
+		<component id="iopkt_headers_arm" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/target/arm</location>
+			<location basedir="./target/arm">nw_cpu_atomic.h</location>
+		</component>
+		<component id="iopkt_headers_mips" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/target/mips</location>
+			<location basedir="./target/mips">nw_cpu_atomic.h</location>
+		</component>
+		<component id="iopkt_headers_ppc" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/target/ppc</location>
+			<location basedir="./target/ppc">nw_cpu_atomic.h</location>
+		</component>
+		<component id="iopkt_headers_sh" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/target/sh</location>
+			<location basedir="./target/sh">nw_cpu_atomic.h</location>
+		</component>
+		<component id="iopkt_headers_x86" generated="false" runtime="false">
+			<location type="install">usr/include/io-pkt/target/x86</location>
+			<location basedir="./target/x86">nw_cpu_atomic.h</location>
+		</component>
+	</contents>
+
+	<requires>
+		<part build="true" location="lib/drvr"/>
+		<part build="true" location="sys/dev/lib"/>
+	</requires>
+
+</module>

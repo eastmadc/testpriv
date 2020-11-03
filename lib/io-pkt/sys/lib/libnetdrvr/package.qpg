@@ -1,0 +1,8 @@
+<QPG:Generation>
+	<QPG:Owner file="owner.qpg"/>
+	<QPG:Values>
+		<QPG:Files>
+			<QPG:Add component="dev" file="public/sys/cfg.h" install="/usr/include/sys/"/>
+		</QPG:Files>
+	</QPG:Values>
+</QPG:Generation>

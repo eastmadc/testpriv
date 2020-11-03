@@ -1,0 +1,14 @@
+%C - PF/NAT filter module
+
+This module is loaded by tcpip stack and provides pf/NAT support.
+
+Syntax:
+mount -Ttcpip lsm-pf.so
+
+   If the prefix option is specified on the io-pkt-v[4,4-hc,6] 
+   command line (for example "-p tcpip prefix=<path>") 
+   lsm-pf-v<x>.so will inherit this prefix automatically and
+   register its resource manager as "<path>/dev/pf". This 
+   pathname can then be passed to the pfctl -p option to 
+   override the default of /dev/pf. 
+

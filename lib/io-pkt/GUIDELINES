@@ -1,0 +1,30 @@
+The following are guidelines, not dogma.  If you're working on
+something that's in a usable state but not completely polished,
+by all means check it in.  Bringing such a module in line with
+the following is encouraged; don't be surprised if someone helps
+out with some diffs to that end.
+
+1.
+Running a configure script at compile time should be avoided.
+It's preferable to check in a static configuration.  For example:
+-DHAVE_CONFIG_H 
+
+2.
+The QNX recursive make format should be used.  The ideal is to be
+able to do something like the following from the base io-pkt
+directory:
+# make CPULIST=x86 CCOPTS=-O0 DEBUG=-g install
+
+3.
+When bringing in new vendor source, one should try to follow the
+vendor's directory layout.  This make updating the source easier
+in the future via 'svn merge' and vendor branches.
+
+4.
+Additions to vendor code should follow the vendor's coding
+style.  For NetBSD code this is generally as per their
+src/share/misc/style:
+http://cvsweb.netbsd.org/bsdweb.cgi/src/share/misc/style
+
+Totally new code should try to follow this format as well
+as it's generally in line with the QNX coding guidlines.
